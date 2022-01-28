@@ -2,10 +2,12 @@
 #define MOBILEROBOT_H
 
 #include "Motor.h"
+#include "Encoder.h"
 
 class MobileRobot {
   private:
     Motor leftWheel, rightWheel;
+    Encoder leftEncoder, rightEncoder;
     float degreeToRad(float angle);
     void initInterrupt();
   public:

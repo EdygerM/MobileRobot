@@ -24,12 +24,13 @@ static void rightWheelInterruptB()
   pointerToRobot->rightWheelIncrementB(); 
 }
 
-MobileRobot::MobileRobot() : leftWheel(Parameter::leftWheelPin1, Parameter::leftWheelPin2, Parameter::leftWheelpinSleep, 
-                           Parameter::leftWheelEncA, Parameter::leftWheelEncB, Parameter::mode, 
-                           Parameter::kp, Parameter::kd, Parameter::ki),
+MobileRobot::MobileRobot() : 
+  leftWheel(Parameter::leftWheelPin1, Parameter::leftWheelPin2, Parameter::leftWheelpinSleep, 
+            Parameter::kp, Parameter::kd, Parameter::ki),
   rightWheel(Parameter::rightWheelPin1, Parameter::rightWheelPin2, Parameter::rightWheelpinSleep,
-             Parameter::rightWheelEncA, Parameter::rightWheelEncB, Parameter::mode,
-             Parameter::kp, Parameter::kd, Parameter::ki)
+             Parameter::kp, Parameter::kd, Parameter::ki),
+  leftEncoder(Parameter::leftWheelEncA, Parameter::leftWheelEncB, Parameter::mode),
+  rightEncoder(Parameter::rightWheelEncA, Parameter::rightWheelEncB, Parameter::mode)
 {
   pointerToRobot = this;
   initInterrupt();
@@ -53,38 +54,38 @@ void MobileRobot::initInterrupt()
 
 void MobileRobot::leftWheelIncrementA() 
 {
-  leftWheel.incrementA();
+  leftEncoder.incrementA();
 }
 
 void MobileRobot::rightWheelIncrementA() 
 {
-  rightWheel.incrementA();
+  rightEncoder.incrementA();
 }
 
 void MobileRobot::leftWheelIncrementB() 
 {
-  leftWheel.incrementB();
+  leftEncoder.incrementB();
 }
 
 void MobileRobot::rightWheelIncrementB() 
 {
-  rightWheel.incrementB();
+  rightEncoder.incrementB();
 }
 
 void MobileRobot::move(float linear_vel, float angular_vel) 
 {
   float leftWheelSpeed = linear_vel - angular_vel;
   float rightWheelSpeed = linear_vel + angular_vel;
-  leftWheel.setSpeed(leftWheelSpeed, Parameter::leftWheelTuning);
-  rightWheel.setSpeed(rightWheelSpeed, Parameter::rightWheelTuning);
+  leftWheel.setSpeed(leftWheelSpeed, Parameter::leftWheelTuning, leftEncoder.getData());
+  rightWheel.setSpeed(rightWheelSpeed, Parameter::rightWheelTuning, rightEncoder.getData());
 }
 
 int MobileRobot::getDataLeftWheel() 
 {
-  return leftWheel.getData();
+  return leftEncoder.getData();
 }
 
 int MobileRobot::getDataRightWheel() 
 {
-  return rightWheel.getData();
+  return rightEncoder.getData();
 }

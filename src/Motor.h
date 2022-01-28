@@ -27,26 +27,21 @@ class Motor {
     byte pin1, pin2, pinSleep;
     unsigned long previousTime;
     int previousPos;
-    Encoder encoder;
     PID controller; 
 
     void init();
-    float getSpeed(float deltaPos, float deltaTime);   
+    int getDeltaPosition(int position);
     float getDeltaTime();
-    int getDeltaPos();
+    float getSpeed(float deltaPos, float deltaTime);   
+    unsigned int getSpeedPWM(float speed);
     void sleepManagement(unsigned int speedCommand);
-    void setMotor(int dir, int pwmVal);
     bool isForward(float speedOutput) ;
+    void setMotor(int dir, int pwmVal); 
     
   public:
-    Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB);
-    Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB, Constant::Mode mode);
-    Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB, Constant::Mode mode, float kp, float kd, float ki);
-    void setSpeed(float speedSetpoint, bool speedTuning);      
-    void incrementA();
-    void incrementB();
-    int getData();
-    
+    Motor(byte pin1, byte pin2, byte pinSleep);
+    Motor(byte pin1, byte pin2, byte pinSleep, float kp, float kd, float ki);
+    void setSpeed(float speedSetpoint, bool speedTuning, int position);          
 };
 
 #endif
