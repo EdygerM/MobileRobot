@@ -1,5 +1,4 @@
 #include "Motor.h"
-#include "Parameter.h"
 
 Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki) : 
   controller(kp, kd, ki), 
