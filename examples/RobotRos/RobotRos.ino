@@ -9,8 +9,6 @@ MobileRobot robot;
 
 float angular_vel = 0;
 float linear_vel = 0;
-//float angular_vel = -(7.1/6.0)*(PI/2.0);
-//float linear_vel = 0.1;
 
 ros::NodeHandle  nh;
 
