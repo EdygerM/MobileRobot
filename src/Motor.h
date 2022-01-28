@@ -27,7 +27,9 @@ class Motor {
     byte pin1, pin2, pinSleep;
     unsigned long previousTime;
     int previousPos;
+    byte minPWM, maxPWM;
     PID controller; 
+    Constant::MotorMode mode;
 
     void init();
     int getDeltaPosition(int position);
@@ -36,11 +38,11 @@ class Motor {
     unsigned int getSpeedPWM(float speed);
     void sleepManagement(unsigned int speedCommand);
     bool isForward(float speedOutput) ;
-    void setMotor(int dir, int pwmVal); 
+    void setMotor(int speedPWM, bool isForward); 
     
   public:
-    Motor(byte pin1, byte pin2, byte pinSleep);
-    Motor(byte pin1, byte pin2, byte pinSleep, float kp, float kd, float ki);
+    Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki);
+    Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki, byte minPWM, byte maxPWM);
     void setSpeed(float speedSetpoint, bool speedTuning, int position);          
 };
 

@@ -1,18 +1,21 @@
 #include "Motor.h"
 #include "Parameter.h"
 
-Motor::Motor(byte pin1, byte pin2, byte pinSleep) : 
-  controller(1, 0, 0), 
+Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki) : 
+  controller(kp, kd, ki), 
   previousTime(0), 
-  previousPos(0) 
+  previousPos(0), 
+  minPWM(5),
+  maxPWM(255)
 {
   this->pin1 = pin1;
   this->pin2 = pin2;
   this->pinSleep = pinSleep;
+  this->mode = mode;
   init();
 }
 
-Motor::Motor(byte pin1, byte pin2, byte pinSleep, float kp, float kd, float ki) : 
+Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki, byte minPWM, byte maxPWM) : 
   controller(kp, kd, ki), 
   previousTime(0), 
   previousPos(0) 
@@ -20,6 +23,9 @@ Motor::Motor(byte pin1, byte pin2, byte pinSleep, float kp, float kd, float ki) 
   this->pin1 = pin1;
   this->pin2 = pin2;
   this->pinSleep = pinSleep;
+  this->mode = mode;
+  this->minPWM = minPWM;
+  this->minPWM = maxPWM;
   init();
 }
 
@@ -36,14 +42,13 @@ void Motor::setSpeed(float speedSetpoint, bool speedTuning, int position)
   int deltaPos = getDeltaPosition(position);
   float speedMeasure = getSpeed(deltaPos, deltaTime);
   float speedOutput = controller.getOutput(speedSetpoint, speedMeasure, deltaTime);
+  unsigned int speedPWM = getSpeedPWM(speedOutput);
   
   if(speedTuning)
     controller.printTuning(speedSetpoint, speedMeasure);
   
-  unsigned int speedPWM = getSpeedPWM(speedOutput);
-  
   sleepManagement(speedPWM);
-  setMotor(isForward(speedOutput), speedPWM);
+  setMotor(speedPWM, isForward(speedOutput));
 }
 
 // Compute time variation between now and the last call
@@ -84,9 +89,9 @@ unsigned int Motor::getSpeedPWM(float speed)
 {
   unsigned int speedPWM = abs(speed);
   
-  if(speedPWM > Parameter::speedMax)
-    speedPWM = Parameter::speedMax;
-  else if(speedPWM < Parameter::speedMin)
+  if(speedPWM > maxPWM)
+    speedPWM = maxPWM;
+  else if(speedPWM < minPWM)
     speedPWM = 0;
 
   return speedPWM;
@@ -95,7 +100,7 @@ unsigned int Motor::getSpeedPWM(float speed)
 void Motor::sleepManagement(unsigned int speedCommand) 
 {
   if(pinSleep) {
-    if(speedCommand < Parameter::speedMin)
+    if(speedCommand < minPWM)
       digitalWrite(pinSleep, LOW);
     else
       digitalWrite(pinSleep, HIGH);
@@ -111,18 +116,14 @@ bool Motor::isForward(float speedOutput)
   return isForward;
 }
 
-void Motor::setMotor(int dir, int pwmVal)
+void Motor::setMotor(int speedPWM, bool isForward)
 {
-  if(dir == 1){
-    analogWrite(pin1, pwmVal);
+  if(isForward){
+    analogWrite(pin1, speedPWM);
     digitalWrite(pin2, HIGH);
-  }
-  else if(dir == -1){
-    analogWrite(pin1, pwmVal);
-    digitalWrite(pin2, LOW);
   }
   else{
-    digitalWrite(pin1, 0);
-    digitalWrite(pin2, HIGH);
+    analogWrite(pin1, speedPWM);
+    digitalWrite(pin2, LOW);
   }
 }

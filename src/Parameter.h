@@ -9,13 +9,14 @@ namespace Parameter{
   extern byte leftWheelPin1, leftWheelPin2, leftWheelpinSleep;
   extern byte rightWheelPin1, rightWheelPin2, rightWheelpinSleep;
   extern float kp, kd, ki;
-  extern int speedMin, speedMax;
+  extern byte motorSpeedMin, motorSpeedMax;
   extern bool leftWheelTuning, rightWheelTuning;
+  extern Constant::MotorMode motorMode;
 
   // Encoders Parameters
   extern byte rightWheelEncA, rightWheelEncB;
   extern byte leftWheelEncA, leftWheelEncB;
-  extern Constant::Mode mode;
+  extern Constant::EncoderMode encoderMode;
 }
 
 

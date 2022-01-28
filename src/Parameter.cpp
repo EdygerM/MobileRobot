@@ -8,21 +8,20 @@ byte Parameter::leftWheelpinSleep  = 4;
 byte Parameter::rightWheelPin1     = 9;
 byte Parameter::rightWheelPin2     = 7;
 byte Parameter::rightWheelpinSleep = 5;
-int Parameter::speedMin = 5;
-int Parameter::speedMax = 255;
-bool Parameter::leftWheelTuning = false; 
-bool Parameter::rightWheelTuning = false;
+byte Parameter::motorSpeedMin      = 5;
+byte Parameter::motorSpeedMax      = 255;
+bool Parameter::leftWheelTuning    = false; 
+bool Parameter::rightWheelTuning   = false;
+Constant::MotorMode Parameter::motorMode = Constant::PWM_DIRECTION; 
 
 // Controller
 float Parameter::kp = 1;
 float Parameter::kd = 0;
 float Parameter::ki = 0;
 
-
 // Encoders Parameters
 byte Parameter::rightWheelEncA = 2;
 byte Parameter::rightWheelEncB = 11;
 byte Parameter::leftWheelEncA  = 3;
 byte Parameter::leftWheelEncB  = 13;
-Constant::Mode Parameter::mode = Constant::CHANGE_A; 
-
+Constant::EncoderMode Parameter::encoderMode = Constant::CHANGE_A; 

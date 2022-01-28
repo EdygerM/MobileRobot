@@ -3,14 +3,17 @@
 
 namespace Constant {
   extern float toMicro, toMilli;
-  // Minumum and maximum values for 16-bit integers
   extern int intMin, intMax;
 
-  // Encoder Modes
-  enum Mode {
+  enum EncoderMode {
     RISING_A,
     CHANGE_A,
     CHANGE_AB
+  };
+
+  enum MotorMode {
+    PWM_DIRECTION,
+    DOUBLE_PWM
   };
 }
 
