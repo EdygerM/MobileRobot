@@ -44,7 +44,7 @@ void Motor::init()
   pinMode(pinSleep, OUTPUT);
 }
 
-void Motor::setSpeed(int speedSetpoint, bool tuning) 
+void Motor::setSpeed(float speedSetpoint, bool tuning) 
 { 
   float deltaTime = getDeltaTime();
   int deltaPos = getDeltaPos();
