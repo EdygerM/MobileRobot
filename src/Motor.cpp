@@ -52,10 +52,10 @@ void Motor::setSpeed(int speedSetpoint, bool debug)
   float speedOutput = controller.getOutput(speedSetpoint, speedMeasure, deltaTime);
   
   if(debug) {
-  Serial.print(" ");
-  Serial.print(speedSetpoint);
-  Serial.print(" ");
-  Serial.println(speedMeasure);
+    Serial.print(" ");
+    Serial.print(speedSetpoint);
+    Serial.print(" ");
+    Serial.println(speedMeasure);
   } 
 
   // Motor direction

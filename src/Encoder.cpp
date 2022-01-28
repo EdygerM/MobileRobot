@@ -26,8 +26,7 @@ void Encoder::init()
   pinMode(pinB, INPUT);
 }
 
-// Increment the raw data when signal A interrupt is called
-// Depending on the mode, 
+// Increment the raw data depending on the reading mode
 void Encoder::incrementA() 
 {
   if(mode == Parameter::RISING_A)
