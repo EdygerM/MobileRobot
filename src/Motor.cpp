@@ -13,7 +13,7 @@ Motor::Motor(byte pin1, byte pin2, byte pinSleep, byte encoderA, byte encoderB) 
   init();
 }
 
-Motor::Motor(byte pin1, byte pin2, byte pinSleep, byte encoderA, byte encoderB, Parameter::Mode mode) : 
+Motor::Motor(byte pin1, byte pin2, byte pinSleep, byte encoderA, byte encoderB, Constant::Mode mode) : 
   encoder(encoderA, encoderB, mode), 
   controller(1, 0, 0), 
   previousTime(0), 
@@ -25,7 +25,7 @@ Motor::Motor(byte pin1, byte pin2, byte pinSleep, byte encoderA, byte encoderB, 
   init();
 }
 
-Motor::Motor(byte pin1, byte pin2, byte pinSleep, byte encoderA, byte encoderB, Parameter::Mode mode, float kp, float kd, float ki) : 
+Motor::Motor(byte pin1, byte pin2, byte pinSleep, byte encoderA, byte encoderB, Constant::Mode mode, float kp, float kd, float ki) : 
   encoder(encoderA, encoderB, mode), 
   controller(kp, kd, ki), 
   previousTime(0), 

@@ -1,4 +1,5 @@
 #include "MobileRobot.h"
+#include "Constant.h"
 
 MobileRobot *pointerToRobot;
 
@@ -30,8 +31,23 @@ MobileRobot::MobileRobot() : leftWheel(Parameter::leftWheelPin1, Parameter::left
              Parameter::kp, Parameter::kd, Parameter::ki)
 {
   pointerToRobot = this;
-  attachInterrupt(digitalPinToInterrupt(Parameter::leftWheelEncA), leftWheelInterruptA, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(Parameter::rightWheelEncA), rightWheelInterruptA, CHANGE);
+  initInterrupt();
+}
+
+void MobileRobot::initInterrupt()
+{
+  if(Parameter::mode == Constant::RISING_A) {
+    attachInterrupt(digitalPinToInterrupt(Parameter::leftWheelEncA), leftWheelInterruptA, RISING);
+    attachInterrupt(digitalPinToInterrupt(Parameter::rightWheelEncA), rightWheelInterruptA, RISING);
+  }
+  else if(Parameter::mode == Constant::CHANGE_A || Parameter::mode == Constant::CHANGE_AB) {
+    attachInterrupt(digitalPinToInterrupt(Parameter::leftWheelEncA), leftWheelInterruptA, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(Parameter::rightWheelEncA), rightWheelInterruptA, CHANGE);
+    if(Parameter::mode == Constant::CHANGE_AB) {
+      attachInterrupt(digitalPinToInterrupt(Parameter::leftWheelEncB), leftWheelInterruptB, CHANGE);
+      attachInterrupt(digitalPinToInterrupt(Parameter::rightWheelEncB), rightWheelInterruptB, CHANGE);
+    }
+  }
 }
 
 void MobileRobot::leftWheelIncrementA() 

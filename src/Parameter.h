@@ -2,6 +2,7 @@
 #define PARAMETER_H
 
 #include "Arduino.h"
+#include "Constant.h"
 
 namespace Parameter{
   // Motors Parameters
@@ -11,17 +12,10 @@ namespace Parameter{
   extern int speedMin, speedMax;
   extern bool leftWheelTuning, rightWheelTuning;
 
-  // Encoder Modes
-  enum Mode {
-    RISING_A,
-    CHANGE_A,
-    CHANGE_AB
-  };
-
   // Encoders Parameters
   extern byte rightWheelEncA, rightWheelEncB;
   extern byte leftWheelEncA, leftWheelEncB;
-  extern Mode mode;
+  extern Constant::Mode mode;
   
   // Minumum and maximum values for 16-bit integers
   // Range of 65,535

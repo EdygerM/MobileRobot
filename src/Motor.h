@@ -39,8 +39,8 @@ class Motor {
     
   public:
     Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB);
-    Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB, Parameter::Mode mode);
-    Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB, Parameter::Mode mode, float kp, float kd, float ki);
+    Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB, Constant::Mode mode);
+    Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB, Constant::Mode mode, float kp, float kd, float ki);
     void setSpeed(int speedSetpoint, bool tuning);      
     void incrementA();
     void incrementB();

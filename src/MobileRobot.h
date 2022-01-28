@@ -2,12 +2,12 @@
 #define MOBILEROBOT_H
 
 #include "Motor.h"
-#include "Parameter.h"
 
 class MobileRobot {
   private:
     Motor leftWheel, rightWheel;
-    float degreeToRad(float angle) ;
+    float degreeToRad(float angle);
+    void initInterrupt();
   public:
     MobileRobot();  
     void leftWheelIncrementA();    

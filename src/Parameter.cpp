@@ -24,6 +24,6 @@ byte Parameter::rightWheelEncA = 2;
 byte Parameter::rightWheelEncB = 11;
 byte Parameter::leftWheelEncA  = 3;
 byte Parameter::leftWheelEncB  = 13;
-Parameter::Mode Parameter::mode = CHANGE_A; 
+Constant::Mode Parameter::mode = Constant::CHANGE_A; 
 int Parameter::encDataMin = -32768;
 int Parameter::encDataMax = 32767;
