@@ -44,18 +44,15 @@ void Motor::init()
   pinMode(pinSleep, OUTPUT);
 }
 
-void Motor::setSpeed(int speedSetpoint, bool debug) 
+void Motor::setSpeed(int speedSetpoint, bool tuning) 
 { 
   float deltaTime = getDeltaTime();
   int deltaPos = getDeltaPos();
   float speedMeasure = getSpeed(deltaPos, deltaTime);
   float speedOutput = controller.getOutput(speedSetpoint, speedMeasure, deltaTime);
   
-  if(debug) {
-    Serial.print(" ");
-    Serial.print(speedSetpoint);
-    Serial.print(" ");
-    Serial.println(speedMeasure);
+  if(tuning) {
+    controller.print(speedSetpoint, speedMeasure);
   } 
 
   // Motor direction

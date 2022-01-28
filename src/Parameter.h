@@ -9,6 +9,7 @@ namespace Parameter{
   extern byte rightWheelPin1, rightWheelPin2, rightWheelpinSleep;
   extern float kp, kd, ki;
   extern int speedMin, speedMax;
+  extern bool leftWheelTuning, rightWheelTuning;
 
   // Encoder Modes
   enum Mode {

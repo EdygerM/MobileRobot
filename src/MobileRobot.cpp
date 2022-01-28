@@ -58,8 +58,8 @@ void MobileRobot::move(float linear_vel, float angular_vel)
 {
   float leftWheelSpeed = linear_vel - angular_vel;
   float rightWheelSpeed = linear_vel + angular_vel;
-  leftWheel.setSpeed(leftWheelSpeed, 1);
-  rightWheel.setSpeed(rightWheelSpeed, 0);
+  leftWheel.setSpeed(leftWheelSpeed, Parameter::leftWheelTuning);
+  rightWheel.setSpeed(rightWheelSpeed, Parameter::rightWheelTuning);
 }
 
 int MobileRobot::getDataLeftWheel() 
