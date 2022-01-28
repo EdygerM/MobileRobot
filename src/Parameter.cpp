@@ -10,8 +10,8 @@ byte Parameter::rightWheelPin2     = 7;
 byte Parameter::rightWheelpinSleep = 5;
 int Parameter::speedMin = 5;
 int Parameter::speedMax = 255;
-bool leftWheelTuning = false; 
-bool rightWheelTuning = false;
+bool Parameter::leftWheelTuning = false; 
+bool Parameter::rightWheelTuning = false;
 
 // Controller
 float Parameter::kp = 1;

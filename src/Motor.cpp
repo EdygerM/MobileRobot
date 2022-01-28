@@ -51,8 +51,8 @@ void Motor::setSpeed(float speedSetpoint, bool speedTuning)
   float speedMeasure = getSpeed(deltaPos, deltaTime);
   float speedOutput = controller.getOutput(speedSetpoint, speedMeasure, deltaTime);
   
-  if(speedTuning == true) {
-  controller.printTuning(speedSetpoint, speedMeasure);
+  if(speedTuning) {
+    controller.printTuning(speedSetpoint, speedMeasure);
   } 
 
   // Motor direction
