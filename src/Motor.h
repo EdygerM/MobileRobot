@@ -1,12 +1,4 @@
 /* 
- *  Motor.h
- *  
- *  Created: 26.01.22
- *  By: Edy Mariano
- *  
- *  Modified: 26.01.22 
- *  By: Edy Mariano
- *  
  *  Manage speed of a DC motor with PWM. Must be coupled with an incremental encoder
  *  
  *  Compatible with the majority of popular DC Motor drivers for Arduino. 

@@ -1,14 +1,3 @@
-/* 
- *  Encoder.cpp
- *  
- *  Created: 26.01.22
- *  By: Edy Mariano
- *  
- *  Modified: 26.01.22 
- *  By: Edy Mariano
- *  
- */ 
-
 #include "Encoder.h"
 #include <util/atomic.h> // For the ATOMIC_BLOCK macro
 

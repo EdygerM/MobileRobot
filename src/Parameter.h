@@ -1,14 +1,3 @@
-/* 
- *  Parameter.h
- *  
- *  Created: 26.01.22
- *  By: Edy Mariano
- *  
- *  Modified: 26.01.22 
- *  By: Edy Mariano
- *  
- */ 
-
 #ifndef PARAMETER_H
 #define PARAMETER_H
 
