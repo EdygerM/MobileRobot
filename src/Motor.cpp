@@ -54,12 +54,6 @@ void Motor::setSpeed(float speedSetpoint, bool speedTuning)
   if(speedTuning) {
     controller.printTuning(speedSetpoint, speedMeasure);
   } 
-
-  // Motor direction
-  int dir = 1;
-  if(speedOutput < 0){
-    dir = -1;
-  }
   
   unsigned int speedPWM = abs(speedOutput);
   
@@ -70,7 +64,7 @@ void Motor::setSpeed(float speedSetpoint, bool speedTuning)
   
   sleepManagement(speedPWM);
 
-  setMotor(dir, speedPWM);
+  setMotor(isForward(speedOutput), speedPWM);
 }
 
 // Compute time variation between now and the last call
@@ -132,6 +126,15 @@ void Motor::setMotor(int dir, int pwmVal)
     digitalWrite(pin1, 0);
     digitalWrite(pin2, HIGH);
   }
+}
+
+bool Motor::isForward(float speedOutput) 
+{
+  bool isForward = true;
+  if(speedOutput < 0)
+    isForward = false;
+
+  return isForward;
 }
 
 void Motor::incrementA() 

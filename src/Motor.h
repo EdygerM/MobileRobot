@@ -36,6 +36,7 @@ class Motor {
     int getDeltaPos();
     void sleepManagement(unsigned int speedCommand);
     void setMotor(int dir, int pwmVal);
+    bool isForward(float speedOutput) ;
     
   public:
     Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB);
