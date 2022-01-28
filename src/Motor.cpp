@@ -1,5 +1,5 @@
 #include "Motor.h"
-#include "Constant.h"
+#include "Parameter.h"
 
 Motor::Motor(byte pin1, byte pin2, byte pinSleep, byte encoderA, byte encoderB) : 
   encoder(encoderA, encoderB), 
@@ -44,15 +44,15 @@ void Motor::init()
   pinMode(pinSleep, OUTPUT);
 }
 
-void Motor::setSpeed(float speedSetpoint, bool tuning) 
+void Motor::setSpeed(float speedSetpoint, bool speedTuning) 
 { 
   float deltaTime = getDeltaTime();
   int deltaPos = getDeltaPos();
   float speedMeasure = getSpeed(deltaPos, deltaTime);
   float speedOutput = controller.getOutput(speedSetpoint, speedMeasure, deltaTime);
   
-  if(tuning) {
-    controller.printTuning(speedSetpoint, speedMeasure);
+  if(speedTuning == true) {
+  controller.printTuning(speedSetpoint, speedMeasure);
   } 
 
   // Motor direction

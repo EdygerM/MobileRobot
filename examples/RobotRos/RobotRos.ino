@@ -80,42 +80,6 @@ void loop()
     robot.move(1.025*(1200.9/2.0)*linear_vel, (7.1/6.0)*(1200.9/2.0)*angular_vel/9.39);
     //robot.move(1.025*(1200.9/4.0)*linear_vel, (7.1/6.0)*(1200.9/4.0)*angular_vel/9.39);
   } 
-
-  /*if (currentMillis > interval3) {
-    robot.move(0, 0);
-  }
-  else
-  {
-    if (currentMillis - previousMillis2 > interval2) {
-      previousMillis2 = currentMillis;
-      robot.move(1.025*(1200.9/4.0)*linear_vel, (7.1/6.0)*(1200.9/4.0)*angular_vel/9.39);
-    }  
-  }*/
-  /*else {
-    if (currentMillis - previousMillis4 < interval5) {
-      if (currentMillis - previousMillis2 > interval2) {
-        previousMillis2 = currentMillis;
-        robot.move((1200.9/4.0)*linear_vel, 0);
-      }
-    }
-    else if (currentMillis - previousMillis4 < interval4) {
-      robot.move(0, 0);
-    }
-    else if (currentMillis - previousMillis4 < interval6) {
-      if (currentMillis - previousMillis2 > interval2) {
-        previousMillis2 = currentMillis;
-        robot.move(0, (6.35/6.0)*(1200.9/4.0)*angular_vel/9.39);
-      }
-    }
-    else if (currentMillis - previousMillis4 < interval7) {
-      robot.move(0, 0);
-    }
-    else {
-     previousMillis4 = currentMillis; 
-    }
-  }*/
-  //robot.move(linear_vel, angular_vel);
-  
  
   // If the time interval has passed, publish the number of ticks,
   // and calculate the velocities.
@@ -124,14 +88,9 @@ void loop()
 
     left_wheel_tick_count.data = robot.getDataLeftWheel();
     right_wheel_tick_count.data = robot.getDataRightWheel();
-    //Serial.println(left_wheel_tick_count.data);
-    //Serial.println(right_wheel_tick_count.data);
-    // Publish tick counts to topics
+    
     leftPub.publish(&left_wheel_tick_count);
     rightPub.publish(&right_wheel_tick_count); 
-    /*Serial.print(left_wheel_tick_count.data);
-    Serial.print(" ");
-    Serial.println(right_wheel_tick_count.data);*/
   }  
   nh.spinOnce();
 }

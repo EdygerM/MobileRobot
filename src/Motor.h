@@ -20,7 +20,7 @@
 
 #include "Encoder.h"
 #include "PID.h"
-#include "Parameter.h"
+#include "Constant.h"
 
 class Motor {
   private:
@@ -41,7 +41,7 @@ class Motor {
     Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB);
     Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB, Constant::Mode mode);
     Motor(byte pin1, byte pin2, byte pinSleep, byte encA, byte encB, Constant::Mode mode, float kp, float kd, float ki);
-    void setSpeed(float speedSetpoint, bool tuning);      
+    void setSpeed(float speedSetpoint, bool speedTuning);      
     void incrementA();
     void incrementB();
     int getData();

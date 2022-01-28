@@ -1,5 +1,6 @@
 #include "MobileRobot.h"
 #include "Constant.h"
+#include "Parameter.h"
 
 MobileRobot *pointerToRobot;
 
