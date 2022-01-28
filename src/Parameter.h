@@ -16,11 +16,6 @@ namespace Parameter{
   extern byte rightWheelEncA, rightWheelEncB;
   extern byte leftWheelEncA, leftWheelEncB;
   extern Constant::Mode mode;
-  
-  // Minumum and maximum values for 16-bit integers
-  // Range of 65,535
-  extern int encDataMin;
-  extern int encDataMax;
 }
 
 

@@ -2,8 +2,9 @@
 #define CONSTANT_H
 
 namespace Constant {
-  extern float toMicro;
-  extern float toMilli;
+  extern float toMicro, toMilli;
+  // Minumum and maximum values for 16-bit integers
+  extern int intMin, intMax;
 
   // Encoder Modes
   enum Mode {

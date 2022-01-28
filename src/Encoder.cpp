@@ -1,4 +1,5 @@
 #include "Encoder.h"
+#include "Parameter.h"
 #include <util/atomic.h> // ATOMIC_BLOCK macro https://www.arduino.cc/reference/en/language/variables/variable-scope-qualifiers/volatile/
 
 Encoder::Encoder(byte pinA, byte pinB) : 
@@ -83,16 +84,16 @@ void Encoder::addB()
 
 void Encoder::addData() 
 {
-  if (data >= Parameter::encDataMax)
-    data = Parameter::encDataMin;
+  if (data >= Constant::intMax)
+    data = Constant::intMin;
   else
     data++;
 }
 
 void Encoder::subData() 
 {
-  if (data <= Parameter::encDataMin)
-    data = Parameter::encDataMax;
+  if (data <= Constant::intMin)
+    data = Constant::intMax;
   else
     data--;
 }
