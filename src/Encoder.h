@@ -12,7 +12,7 @@ class Encoder {
   private:
     byte pinA, pinB;
     volatile int data;
-    Parameter::Mode mode;
+    Constant::Mode mode;
         
     void init();
     void risingA();
@@ -25,7 +25,7 @@ class Encoder {
  
   public:
     Encoder(byte pinA, byte pinB);
-    Encoder(byte pinA, byte pinB, Parameter::Mode mode);
+    Encoder(byte pinA, byte pinB, Constant::Mode mode);
     void incrementA();
     void incrementB();
     int getData();

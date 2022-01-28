@@ -2,7 +2,7 @@
 #include <util/atomic.h> // ATOMIC_BLOCK macro https://www.arduino.cc/reference/en/language/variables/variable-scope-qualifiers/volatile/
 
 Encoder::Encoder(byte pinA, byte pinB) : 
-  mode(Parameter::RISING_A), 
+  mode(Constant::RISING_A), 
   data(0)
 {
   this->pinA = pinA;
@@ -10,7 +10,7 @@ Encoder::Encoder(byte pinA, byte pinB) :
   init();
 }
 
-Encoder::Encoder(byte pinA, byte pinB, Parameter::Mode mode) : 
+Encoder::Encoder(byte pinA, byte pinB, Constant::Mode mode) : 
   data(0)
 {
   this->pinA = pinA;
@@ -29,16 +29,16 @@ void Encoder::init()
 // Increment the raw data depending on the reading mode
 void Encoder::incrementA() 
 {
-  if(mode == Parameter::RISING_A)
+  if(mode == Constant::RISING_A)
     risingA();
-  else if(mode == Parameter::CHANGE_A || mode == Parameter::CHANGE_AB)
+  else if(mode == Constant::CHANGE_A || mode == Constant::CHANGE_AB)
     changeA();
 }
 
 // Increment the raw data when signal B interrupt is called
 void Encoder::incrementB() 
 {
-  if(mode == Parameter::CHANGE_AB)
+  if(mode == Constant::CHANGE_AB)
     changeB();
 }
 
