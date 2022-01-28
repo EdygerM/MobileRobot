@@ -8,7 +8,7 @@ class PID {
   public:
     PID(float kp, float kd, float ki);
     float getOutput(float setpoint, float measurement, float deltaTime);
-    void print(float setpoint, float measurement);
+    void printTuning(float setpoint, float measurement);
 };
 
 #endif
