@@ -1,4 +1,5 @@
 #include "Encoder.h"
+#include "Timer.h"
 
 // Define the pins where the signal A and B are connected on the Arduino
 // Note that the pinA must be on an interrupt pin. 
@@ -13,27 +14,22 @@ Constant::EncoderMode mode = Constant::RISING_A;
 Encoder myEncoder(pinA, pinB, mode);
 
 // Define a timer with an interval of 100 ms
-const int interval = 100;
-long previousTime = 0;
-long currentTime = 0;
+Timer timer(100);
 
 void setup() 
 { 
-    attachInterrupt(digitalPinToInterrupt(pinA), InterruptA, RISING);
-    Serial.begin(57600);
+  attachInterrupt(digitalPinToInterrupt(pinA), InterruptA, RISING);
+  Serial.begin(57600);
 }
 
 void loop() 
 {
-    // Print on the Serial Monitor the position of the encoder with an interval
-    if (currentTime - previousTime > interval) {
-        previousTime = currentTime;
-        Serial.print(myEncoder.getData());
-    } 
+  if(timer.isTime())
+    Serial.print(myEncoder.getData());
 }
 
 void InterruptA() 
 {
-    myEncoder.incrementA();
+  myEncoder.incrementA();
 }
 

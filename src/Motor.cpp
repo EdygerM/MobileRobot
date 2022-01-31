@@ -2,7 +2,7 @@
 
 Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki) : 
   controller(kp, kd, ki), 
-  previousTime(0), 
+  previousTime(micros()), 
   previousPos(0), 
   minPWM(5),
   maxPWM(255)
@@ -16,7 +16,7 @@ Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, floa
 
 Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki, byte minPWM, byte maxPWM) : 
   controller(kp, kd, ki), 
-  previousTime(0), 
+  previousTime(micros()), 
   previousPos(0) 
 {
   this->pin1 = pin1;
@@ -57,10 +57,7 @@ float Motor::getDeltaTime()
   unsigned long currentTime = micros();
   unsigned long deltaTime = 0;
 
-  // deltaTime is not computed at the first call or when micros() overflows to avoid random values
-  if(previousTime > 0 && previousTime < currentTime) 
-    deltaTime = currentTime - previousTime;
-    
+  deltaTime = currentTime - previousTime;  
   previousTime = currentTime;
   
   return (float)deltaTime*Constant::toMicro;

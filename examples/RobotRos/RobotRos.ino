@@ -1,5 +1,6 @@
 #include "MobileRobot.h"
 #include "Parameter.h"
+#include "Timer.h"
 #include <ros.h>
 #include <std_msgs/Int16.h>
 #include <geometry_msgs/Twist.h>
@@ -30,12 +31,7 @@ std_msgs::Int16 left_wheel_tick_count;
 ros::Publisher leftPub("left_ticks", &left_wheel_tick_count);
 
 // Time interval for measurements in milliseconds
-const int interval = 30;
-long previousMillis = 0;
-long currentMillis = 0;
-
-const int interval2 = 20;
-long previousMillis2 = 0;
+Timer timerRos(30), timerControl(20);
 
 //------------------------------------------------------------ 
 
@@ -60,19 +56,12 @@ void setup()
 
 void loop() 
 {
-  // Record the time
-  currentMillis = millis();
-
-  if (currentMillis - previousMillis2 > interval2) {
-    previousMillis2 = currentMillis;
+  if (timerControl.isTime())
     robot.move(linear_vel, angular_vel/9.52);
-  } 
  
   // If the time interval has passed, publish the number of ticks,
   // and calculate the velocities.
-  if (currentMillis - previousMillis > interval) {
-    previousMillis = currentMillis;
-
+  if (timerRos.isTime()) {
     left_wheel_tick_count.data = robot.getDataLeftWheel();
     right_wheel_tick_count.data = robot.getDataRightWheel();
     
