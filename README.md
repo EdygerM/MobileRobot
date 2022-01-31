@@ -1,2 +1,3 @@
 # MobileRobot
-Arduino code for a differential wheeled robot compatible with ROS
+Collection of libraries to control a differential mobile robot
+
