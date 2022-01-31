@@ -76,8 +76,8 @@ void MobileRobot::rightWheelIncrementB()
 
 void MobileRobot::move(float linear_vel, float angular_vel) 
 {
-  float leftWheelSpeed = linear_vel - angular_vel;
-  float rightWheelSpeed = linear_vel + angular_vel;
+  float leftWheelSpeed = (linear_vel - angular_vel)*Parameter::ticksPerMeter;
+  float rightWheelSpeed = (linear_vel + angular_vel)*Parameter::ticksPerMeter;
   leftWheel.setSpeed(leftWheelSpeed, Parameter::leftWheelTuning, leftEncoder.getData());
   rightWheel.setSpeed(rightWheelSpeed, Parameter::rightWheelTuning, rightEncoder.getData());
 }

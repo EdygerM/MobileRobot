@@ -1,4 +1,5 @@
 #include "MobileRobot.h"
+#include "Parameter.h"
 #include <ros.h>
 #include <std_msgs/Int16.h>
 #include <geometry_msgs/Twist.h>
@@ -35,27 +36,7 @@ long currentMillis = 0;
 
 const int interval2 = 20;
 long previousMillis2 = 0;
-const int interval3 = 31000;
-long previousMillis3 = 0;
 
-const int interval7 = 8000;
-const int interval6 = 7000;
-const int interval4 = 6000;
-const int interval5 = 5000;
-long previousMillis4 = 0;
-
-// Wheel radius in meters
-const double WHEEL_RADIUS = 0.040;
- 
-// Distance from center of the left tire to the center of the right tire in m
-const double WHEEL_BASE = 0.231;
-
-// Number of ticks per wheel revolution. We won't use this in this code.
-const int TICKS_PER_REVOLUTION = 2248.86/4;
-
-// Number of ticks a wheel makes moving a linear distance of 1 meter
-// This value was measured manually. 1920/(2*pi*0.04) = 7439.43
-const double TICKS_PER_METER = 8947.93/4;
 //------------------------------------------------------------ 
 
 void setup() 
@@ -66,8 +47,15 @@ void setup()
   nh.subscribe(sub);
   nh.advertise(rightPub);
   nh.advertise(leftPub);
-  Serial.begin(57600); 
+  if(Parameter::leftWheelTuning || Parameter::rightWheelTuning)
+    Serial.begin(115200);
   delay(1000);
+  /*pinMode(10, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(4, OUTPUT);
+  analogWrite(10, 150);
+  digitalWrite(8, HIGH);
+  digitalWrite(4, HIGH);*/
 }
 
 void loop() 
@@ -77,8 +65,7 @@ void loop()
 
   if (currentMillis - previousMillis2 > interval2) {
     previousMillis2 = currentMillis;
-    robot.move(1.025*(1200.9/2.0)*linear_vel, (7.1/6.0)*(1200.9/2.0)*angular_vel/9.39);
-    //robot.move(1.025*(1200.9/4.0)*linear_vel, (7.1/6.0)*(1200.9/4.0)*angular_vel/9.39);
+    robot.move(linear_vel, angular_vel/9.52);
   } 
  
   // If the time interval has passed, publish the number of ticks,

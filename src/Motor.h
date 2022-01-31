@@ -35,10 +35,10 @@ class Motor {
     int getDeltaPosition(int position);
     float getDeltaTime();
     float getSpeed(float deltaPos, float deltaTime);   
-    unsigned int getSpeedPWM(float speed);
-    void sleepManagement(unsigned int speedCommand);
+    float getSpeedPWM(float speed);
+    void sleepManagement(byte speedCommand, int speedMeasure);
     bool isForward(float speedOutput) ;
-    void setMotor(int speedPWM, bool isForward); 
+    void setMotor(byte speedPWM, bool isForward); 
     
   public:
     Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki);
