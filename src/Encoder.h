@@ -24,6 +24,7 @@ class Encoder {
     void subData();
  
   public:
+    Encoder(byte pinA, byte pinB);
     Encoder(byte pinA, byte pinB, Constant::EncoderMode mode);
     void incrementA();
     void incrementB();

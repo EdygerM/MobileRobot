@@ -1,6 +1,15 @@
 #include "Encoder.h"
 #include <util/atomic.h> // ATOMIC_BLOCK macro https://www.arduino.cc/reference/en/language/variables/variable-scope-qualifiers/volatile/
 
+Encoder::Encoder(byte pinA, byte pinB) : 
+  data(0),
+  mode(Constant::RISING_A)
+{
+  this->pinA = pinA;
+  this->pinB = pinB;
+  init();
+}
+
 Encoder::Encoder(byte pinA, byte pinB, Constant::EncoderMode mode) : 
   data(0)
 {
