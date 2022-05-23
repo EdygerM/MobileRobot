@@ -41,8 +41,8 @@ class Motor {
     void setMotor(byte speedPWM, bool isForward); 
     
   public:
-    Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki);
-    Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki, byte minPWM, byte maxPWM);
+    Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID controller);
+    Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID controller, byte minPWM, byte maxPWM);
     void setSpeed(float speedSetpoint, bool speedTuning, int position);          
 };
 

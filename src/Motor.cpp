@@ -1,9 +1,9 @@
 #include "Motor.h"
 
-Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki) : 
-  controller(kp, kd, ki), 
+Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID controller) :  
   previousTime(micros()), 
   previousPos(0), 
+  controller(controller),
   minPWM(5),
   maxPWM(255)
 {
@@ -14,10 +14,10 @@ Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, floa
   init();
 }
 
-Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, float kp, float kd, float ki, byte minPWM, byte maxPWM) : 
-  controller(kp, kd, ki), 
+Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID controller, byte minPWM, byte maxPWM) : 
   previousTime(micros()), 
-  previousPos(0) 
+  previousPos(0),
+  controller(controller)
 {
   this->pin1 = pin1;
   this->pin2 = pin2;
@@ -97,7 +97,7 @@ float Motor::getSpeedPWM(float speed)
 void Motor::sleepManagement(byte speedCommand, int speedMeasure) 
 {
   if(pinSleep > 0) {
-    if(speedCommand < minPWM && speedMeasure < (minPWM*16.5))
+    if(speedCommand <= minPWM && speedMeasure <= (minPWM*16.5))
       digitalWrite(pinSleep, LOW);
     else
       digitalWrite(pinSleep, HIGH);
