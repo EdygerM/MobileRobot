@@ -51,13 +51,16 @@ void Motor::setSpeed(float speedSetpoint, bool speedTuning, int position)
   setMotor(speedPWM, isForward(speedOutput));
 }
 
+void Motor::setSpeedV2(float speedSetpoint, bool speedTuning, int position, float speed) 
+{ 
+  float speedOutput = controller.getOutput(speedSetpoint, speed, getDeltaTime());
+}
+
 // Compute time variation between now and the last call
 float Motor::getDeltaTime() 
 {
   unsigned long currentTime = micros();
-  unsigned long deltaTime = 0;
-
-  deltaTime = currentTime - previousTime;  
+  unsigned long deltaTime = currentTime - previousTime; 
   previousTime = currentTime;
   
   return (float)deltaTime*Constant::toMicro;
@@ -115,12 +118,9 @@ bool Motor::isForward(float speedOutput)
 
 void Motor::setMotor(byte speedPWM, bool isForward)
 {
-  if(isForward){
-    analogWrite(pin1, speedPWM);
+  analogWrite(pin1, speedPWM);
+  if(isForward)
     digitalWrite(pin2, HIGH);
-  }
-  else{
-    analogWrite(pin1, speedPWM);
+  else
     digitalWrite(pin2, LOW);
-  }
 }

@@ -13,6 +13,8 @@ class Encoder {
     byte pinA, pinB;
     volatile int data;
     Constant::EncoderMode mode;
+    unsigned long previousTime;
+    volatile float speed;
         
     void init();
     void risingA();
@@ -22,6 +24,8 @@ class Encoder {
     void addB();
     void addData();
     void subData();
+    void computeSpeed(bool isForward);
+    float getDeltaTime();
  
   public:
     Encoder(byte pinA, byte pinB);
@@ -29,6 +33,7 @@ class Encoder {
     void incrementA();
     void incrementB();
     int getData();
+    float getSpeed();
 };
 
 #endif

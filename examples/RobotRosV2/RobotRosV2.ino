@@ -1,4 +1,7 @@
 #include "MobileRobot.h"
+#include "Parameter.h"
+#include "Timer.h"
+#include <Arduino.h>
 #include <ros.h>
 #include <std_msgs/Int16.h>
 #include <geometry_msgs/Twist.h>
@@ -29,44 +32,43 @@ std_msgs::Int16 left_wheel_tick_count;
 ros::Publisher leftPub("left_ticks", &left_wheel_tick_count);
 
 // Time interval for measurements in milliseconds
-const int interval = 30;
-long previousMillis = 0;
-long currentMillis = 0;
+Timer timerRos(30), timerControl(20);
 
-const int interval2 = 20;
-long previousMillis2 = 0;
 //------------------------------------------------------------ 
 
 void setup() 
 { 
+  TCCR1A = 0b10100000;
+  TCCR1B = 0b00010001;
+  ICR1 = 400;
   pinMode(POWER_OPT, OUTPUT);
   digitalWrite(POWER_OPT, HIGH);
   nh.initNode();
   nh.subscribe(sub);
   nh.advertise(rightPub);
   nh.advertise(leftPub);
-  Serial.begin(57600); 
-  delay(1000);
+  if(Parameter::leftWheelTuning || Parameter::rightWheelTuning)
+    Serial.begin(115200);
+  delay(50);
+  /*pinMode(10, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(4, OUTPUT);
+  analogWrite(10, 150);
+  digitalWrite(8, HIGH);
+  digitalWrite(4, HIGH);*/
 }
 
 void loop() 
 {
-  // Record the time
-  currentMillis = millis();
-
-  if (currentMillis - previousMillis2 > interval2) {
-    previousMillis2 = currentMillis;
-    robot.move(1.025*(1200.9/2.0)*linear_vel, (7.1/6.0)*(1200.9/2.0)*angular_vel/9.39);
-  }  
+  if(timerControl.isTime())
+    robot.move(linear_vel, angular_vel/9.52); 
  
   // If the time interval has passed, publish the number of ticks,
   // and calculate the velocities.
-  if (currentMillis - previousMillis > interval) {
-    previousMillis = currentMillis;
-
+  if(timerRos.isTime()) {
     left_wheel_tick_count.data = robot.getDataLeftWheel();
     right_wheel_tick_count.data = robot.getDataRightWheel();
-    // Publish tick counts to topics
+    
     leftPub.publish(&left_wheel_tick_count);
     rightPub.publish(&right_wheel_tick_count); 
   }  

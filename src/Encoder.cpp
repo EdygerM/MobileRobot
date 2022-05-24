@@ -3,7 +3,9 @@
 
 Encoder::Encoder(byte pinA, byte pinB) : 
   data(0),
-  mode(Constant::RISING_A)
+  mode(Constant::RISING_A),
+  previousTime(micros()),
+  speed(0)
 {
   this->pinA = pinA;
   this->pinB = pinB;
@@ -40,6 +42,24 @@ void Encoder::incrementB()
 {
   if(mode == Constant::CHANGE_AB)
     changeB();
+}
+
+void Encoder::computeSpeed(bool isForward)
+{
+  speed = 1/getDeltaTime();
+  
+  if(!isForward)
+    speed *= -1;
+}
+
+// Compute time variation between now and the last call
+float Encoder::getDeltaTime() 
+{
+  unsigned long currentTime = micros();
+  unsigned long deltaTime = currentTime - previousTime; 
+  previousTime = currentTime;
+  
+  return (float)deltaTime*Constant::toMicro;
 }
 
 void Encoder::risingA() 
@@ -87,6 +107,7 @@ void Encoder::addData()
     data = Constant::intMin;
   else
     data++;
+  computeSpeed(true);
 }
 
 void Encoder::subData() 
@@ -95,11 +116,19 @@ void Encoder::subData()
     data = Constant::intMax;
   else
     data--;
+  computeSpeed(false);
 }
 
 int Encoder::getData() 
 {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     return data;
+  }
+}
+
+float Encoder::getSpeed()
+{
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    return speed;
   }
 }
