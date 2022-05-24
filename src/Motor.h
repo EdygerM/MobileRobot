@@ -43,7 +43,7 @@ class Motor {
   public:
     Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID controller);
     Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID controller, byte minPWM, byte maxPWM);
-    void setSpeed(float speedSetpoint, bool speedTuning, int position);   
+    void setSpeed(float speedSetpoint, bool speedTuning, int position, float speed);   
     void setSpeedV2(float speedSetpoint, bool speedTuning, int position, float speed);          
 };
 

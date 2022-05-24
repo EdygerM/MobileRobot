@@ -24,7 +24,7 @@ byte Parameter::rightWheelEncA = 3;
 byte Parameter::rightWheelEncB = 13;
 byte Parameter::leftWheelEncA  = 2;
 byte Parameter::leftWheelEncB  = 11;
-Constant::EncoderMode Parameter::encoderMode = Constant::CHANGE_A; 
+Constant::EncoderMode Parameter::encoderMode = Constant::RISING_A; 
 
 // Robot Parameters
 

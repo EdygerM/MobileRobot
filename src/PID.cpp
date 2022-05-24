@@ -27,7 +27,9 @@ float PID::getOutput(float setpoint, float measurement, float deltaTime)
 
 void PID::printTuning(float setpoint, float measurement) 
 {
+  Serial.print("setpoint:");
   Serial.print(setpoint);
-  Serial.print(" ");
+  Serial.print(", ");
+  Serial.print("measurement:");
   Serial.println(measurement);
 }

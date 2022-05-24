@@ -35,7 +35,7 @@ void Motor::init()
   pinMode(pinSleep, OUTPUT);
 }
 
-void Motor::setSpeed(float speedSetpoint, bool speedTuning, int position) 
+void Motor::setSpeed(float speedSetpoint, bool speedTuning, int position, float speed) 
 { 
   float deltaTime = getDeltaTime();
   int deltaPos = getDeltaPosition(position);
@@ -43,18 +43,30 @@ void Motor::setSpeed(float speedSetpoint, bool speedTuning, int position)
   float speedOutput = controller.getOutput(speedSetpoint, speedMeasure, deltaTime);
   byte speedPWM = getSpeedPWM(speedOutput);
 
+  /*Serial.print("a:");
+  Serial.print(speed);
+  Serial.print(", ");*/
+
   if(speedTuning)
     controller.printTuning(speedSetpoint, speedMeasure);
 
   sleepManagement(speedPWM, speedMeasure);
 
   setMotor(speedPWM, isForward(speedOutput));
-  //setMotor(50, true);
+  //setMotor(speedSetpoint, true);
 }
 
 void Motor::setSpeedV2(float speedSetpoint, bool speedTuning, int position, float speed) 
 { 
   float speedOutput = controller.getOutput(speedSetpoint, speed, getDeltaTime());
+  byte speedPWM = getSpeedPWM(speedOutput);
+
+  if(speedTuning)
+    controller.printTuning(speedSetpoint, speed);
+
+  sleepManagement(speedPWM, speed);
+
+  setMotor(speedPWM, isForward(speedOutput));
 }
 
 // Compute time variation between now and the last call

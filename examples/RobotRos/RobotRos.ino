@@ -33,7 +33,7 @@ const int interval = 30;
 long previousMillis = 0;
 long currentMillis = 0;
 
-const int interval2 = 30;
+const int interval2 = 1;
 long previousMillis2 = 0;
 //------------------------------------------------------------ 
 
@@ -51,6 +51,7 @@ void setup()
 
 void loop() 
 {
+  float linear_vel = 0.01*micros()*1.0e-6;
   // Record the time
   currentMillis = millis();
 
