@@ -49,6 +49,7 @@ void Motor::setSpeed(float speedSetpoint, bool speedTuning, int position)
   sleepManagement(speedPWM, speedMeasure);
 
   setMotor(speedPWM, isForward(speedOutput));
+  //setMotor(50, true);
 }
 
 void Motor::setSpeedV2(float speedSetpoint, bool speedTuning, int position, float speed) 
@@ -87,7 +88,7 @@ float Motor::getSpeed(float deltaPos, float deltaTime)
 
 float Motor::getSpeedPWM(float speed)
 {
-  float speedPWM = abs(speed)/16.5;
+  float speedPWM = abs(speed)/15;
   
   if(speedPWM > maxPWM)
     speedPWM = maxPWM;
@@ -100,7 +101,7 @@ float Motor::getSpeedPWM(float speed)
 void Motor::sleepManagement(byte speedCommand, int speedMeasure) 
 {
   if(pinSleep > 0) {
-    if(speedCommand <= minPWM && speedMeasure <= (minPWM*16.5))
+    if(speedCommand <= minPWM && speedMeasure <= (minPWM*15))
       digitalWrite(pinSleep, LOW);
     else
       digitalWrite(pinSleep, HIGH);

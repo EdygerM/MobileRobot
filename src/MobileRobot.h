@@ -6,7 +6,7 @@
 
 class MobileRobot {
   private:
-    PID controller;
+    PID leftController, rightController;
     Motor leftWheel, rightWheel;
     Encoder leftEncoder, rightEncoder;
     float degreeToRad(float angle);

@@ -8,7 +8,7 @@
 MobileRobot robot;
 
 float angular_vel = 0;
-float linear_vel = 0;
+float linear_vel = 0.2;
 
 ros::NodeHandle  nh;
 
@@ -33,7 +33,7 @@ const int interval = 30;
 long previousMillis = 0;
 long currentMillis = 0;
 
-const int interval2 = 20;
+const int interval2 = 30;
 long previousMillis2 = 0;
 //------------------------------------------------------------ 
 
@@ -45,7 +45,7 @@ void setup()
   nh.subscribe(sub);
   nh.advertise(rightPub);
   nh.advertise(leftPub);
-  Serial.begin(57600); 
+  Serial.begin(115200); 
   delay(1000);
 }
 
@@ -56,7 +56,7 @@ void loop()
 
   if (currentMillis - previousMillis2 > interval2) {
     previousMillis2 = currentMillis;
-    robot.move(1.025*(1200.9/2.0)*linear_vel, (7.1/6.0)*(1200.9/2.0)*angular_vel/9.39);
+    robot.move(linear_vel, angular_vel/9.39);
   }  
  
   // If the time interval has passed, publish the number of ticks,
