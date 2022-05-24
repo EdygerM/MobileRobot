@@ -10,8 +10,8 @@ byte Parameter::rightWheelPin2     = 8;
 byte Parameter::rightWheelpinSleep = 4;
 byte Parameter::motorSpeedMin      = 5;
 byte Parameter::motorSpeedMax      = 255;
-bool Parameter::leftWheelTuning    = false; 
-bool Parameter::rightWheelTuning   = true;
+bool Parameter::leftWheelTuning    = true; 
+bool Parameter::rightWheelTuning   = false;
 Constant::MotorMode Parameter::motorMode = Constant::PWM_DIRECTION; 
 
 // Controller

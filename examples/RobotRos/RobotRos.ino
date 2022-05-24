@@ -8,7 +8,7 @@
 MobileRobot robot;
 
 float angular_vel = 0;
-float linear_vel = 0.2;
+float linear_vel = -0.1;
 
 ros::NodeHandle  nh;
 
@@ -35,6 +35,9 @@ long currentMillis = 0;
 
 const int interval2 = 1;
 long previousMillis2 = 0;
+
+const int interval3 = 1000;
+long previousMillis3 = 0;
 //------------------------------------------------------------ 
 
 void setup() 
@@ -51,14 +54,18 @@ void setup()
 
 void loop() 
 {
-  float linear_vel = 0.01*micros()*1.0e-6;
   // Record the time
   currentMillis = millis();
 
   if (currentMillis - previousMillis2 > interval2) {
     previousMillis2 = currentMillis;
     robot.move(linear_vel, angular_vel/9.39);
-  }  
+  } 
+
+  if (currentMillis - previousMillis3 > interval3) {
+    previousMillis3 = currentMillis;
+    linear_vel *= -1;
+  }   
  
   // If the time interval has passed, publish the number of ticks,
   // and calculate the velocities.

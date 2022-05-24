@@ -25,12 +25,13 @@ static void rightWheelInterruptB()
 }
 
 MobileRobot::MobileRobot() :
-  Controller(Parameter::kp, Parameter::kd, Parameter::ki),
+  leftController(Parameter::kp, Parameter::kd, Parameter::ki),
+  rightController(Parameter::kp, Parameter::kd, Parameter::ki),
   leftWheel(Parameter::leftWheelPin1, Parameter::leftWheelPin2, Parameter::leftWheelpinSleep, 
-            Parameter::motorMode, Controller, 
+            Parameter::motorMode, leftController, 
             Parameter::motorSpeedMin, Parameter::motorSpeedMax),
   rightWheel(Parameter::rightWheelPin1, Parameter::rightWheelPin2, Parameter::rightWheelpinSleep,
-             Parameter::motorMode, Controller, 
+             Parameter::motorMode, rightController, 
              Parameter::motorSpeedMin, Parameter::motorSpeedMax),
   leftEncoder(Parameter::leftWheelEncA, Parameter::leftWheelEncB, Parameter::encoderMode),
   rightEncoder(Parameter::rightWheelEncA, Parameter::rightWheelEncB, Parameter::encoderMode)
@@ -79,8 +80,8 @@ void MobileRobot::move(float linear_vel, float angular_vel)
 {
   float leftWheelSpeed = (linear_vel - angular_vel)*Parameter::ticksPerMeter;
   float rightWheelSpeed = (linear_vel + angular_vel)*Parameter::ticksPerMeter;
-  //leftWheel.setSpeed(leftWheelSpeed, Parameter::leftWheelTuning, leftEncoder.getData());
-  rightWheel.setSpeed(rightWheelSpeed, Parameter::rightWheelTuning, rightEncoder.getData(), rightEncoder.getSpeed());
+  leftWheel.setSpeedV2(leftWheelSpeed, Parameter::leftWheelTuning, leftEncoder.getData(), leftEncoder.getSpeed());
+  rightWheel.setSpeedV2(rightWheelSpeed, Parameter::rightWheelTuning, rightEncoder.getData(), rightEncoder.getSpeed());
 }
 
 int MobileRobot::getDataLeftWheel() 
