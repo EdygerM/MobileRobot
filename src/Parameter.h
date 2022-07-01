@@ -21,6 +21,10 @@ namespace Parameter{
   // Robot Parameters
   extern float wheelRadius, lengthBetweenWheel;
   extern float ticksPerRevolution, ticksPerMeter;
+
+  // Debugging parameters
+  extern float angularSpeed,linearSpeed;
+  extern int timerTicks, timerSpeed;
 }
 
 #endif

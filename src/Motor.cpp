@@ -41,28 +41,30 @@ void Motor::setSpeed(float speedSetpoint, bool speedTuning, int position, float 
   int deltaPos = getDeltaPosition(position);
   float speedMeasure = getSpeed(deltaPos, deltaTime);
   float speedOutput = controller.getOutput(speedSetpoint, speedMeasure, deltaTime);
+
   byte speedPWM = getSpeedPWM(speedOutput);
 
-  /*Serial.print("a:");
-  Serial.print(speed);
-  Serial.print(", ");*/
-
   if(speedTuning)
-    controller.printTuning(speedSetpoint, speedMeasure);
+    controller.printTuning(speedSetpoint, speedMeasure, speedOutput);
 
   sleepManagement(speedPWM, speedMeasure);
 
   setMotor(speedPWM, isForward(speedOutput));
-  //setMotor(speedSetpoint, true);
 }
 
 void Motor::setSpeedV2(float speedSetpoint, bool speedTuning, int position, float speed) 
 { 
   float speedOutput = controller.getOutput(speedSetpoint, speed, getDeltaTime());
+
+  if(speedOutput > 1900)
+    speedOutput = 1900;
+  else if(speedOutput < -1900)
+    speedOutput = -1900;
+
   byte speedPWM = getSpeedPWM(speedOutput);
 
   if(speedTuning)
-    controller.printTuning(speedSetpoint, speed);
+    controller.printTuning(speedSetpoint, speed, speedOutput);
 
   sleepManagement(speedPWM, speed);
 
@@ -100,7 +102,7 @@ float Motor::getSpeed(float deltaPos, float deltaTime)
 
 float Motor::getSpeedPWM(float speed)
 {
-  float speedPWM = abs(speed)/15;
+  float speedPWM = abs(speed)/7.45;
   
   if(speedPWM > maxPWM)
     speedPWM = maxPWM;

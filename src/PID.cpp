@@ -25,11 +25,14 @@ float PID::getOutput(float setpoint, float measurement, float deltaTime)
   return kp*error + kd*derivative + ki*integral;
 }
 
-void PID::printTuning(float setpoint, float measurement) 
+void PID::printTuning(float setpoint, float measurement, float command) 
 {
   Serial.print("setpoint:");
   Serial.print(setpoint);
   Serial.print(", ");
   Serial.print("measurement:");
-  Serial.println(measurement);
+  Serial.print(measurement);
+  Serial.print(", ");
+  Serial.print("command:");
+  Serial.println(command);
 }

@@ -27,12 +27,16 @@ byte Parameter::leftWheelEncB  = 11;
 Constant::EncoderMode Parameter::encoderMode = Constant::RISING_A; 
 
 // Robot Parameters
-
-
-float Parameter::wheelRadius = 0.035; // [m]
+float Parameter::wheelRadius        = 0.035; // [m]
 float Parameter::lengthBetweenWheel = 0.210; // [m]
 // Number of ticks per wheel revolution 3591.84/2
-float Parameter::ticksPerRevolution = 1795.92; //
+float Parameter::ticksPerRevolution = 1795.92/2; //
 // TICKS_PER_REVOLUTION/(2*pi*WHEEL_RADIUS)
 //const float ticksPerMeter = 8166.56;
-float Parameter::ticksPerMeter = Parameter::ticksPerRevolution/(2.0*PI*Parameter::wheelRadius);
+float Parameter::ticksPerMeter      = Parameter::ticksPerRevolution/(2.0*PI*Parameter::wheelRadius);
+
+// Debugging Parameters
+float Parameter::angularSpeed = 0;  // [rad/s]
+float Parameter::linearSpeed  = 0.46;  // [m/s]
+int Parameter::timerTicks     = 30; // [ms] 
+int Parameter::timerSpeed     = 5;  // [ms]
