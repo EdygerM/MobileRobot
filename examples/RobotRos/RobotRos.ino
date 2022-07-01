@@ -8,8 +8,8 @@
 
 MobileRobot robot;
 ros::NodeHandle  nh;
-float angular_vel = 0;
-float linear_vel = -0.2;
+float angular_vel = -1.57;
+float linear_vel = 0;
 
 void twistToVel(const geometry_msgs::Twist& cmd_vel_msg)
 {
