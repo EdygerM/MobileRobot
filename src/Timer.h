@@ -7,6 +7,7 @@ class Timer {
   public:
     Timer(unsigned long interval);
     bool isTime();
+    void init();
 };
 
 #endif

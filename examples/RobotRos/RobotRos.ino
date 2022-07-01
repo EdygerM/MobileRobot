@@ -1,4 +1,5 @@
 #include "MobileRobot.h"
+#include "Timer.h"
 #include <ros.h>
 #include <std_msgs/Int16.h>
 #include <geometry_msgs/Twist.h>
@@ -6,11 +7,9 @@
 #define POWER_OPT A5
 
 MobileRobot robot;
-
-float angular_vel = 0;
-float linear_vel = -0.1;
-
 ros::NodeHandle  nh;
+float angular_vel = 0;
+float linear_vel = -0.2;
 
 void twistToVel(const geometry_msgs::Twist& cmd_vel_msg)
 {
@@ -21,23 +20,16 @@ void twistToVel(const geometry_msgs::Twist& cmd_vel_msg)
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", &twistToVel);
 
 //--------------------------------------------------------
-// Keep track of the number of wheel ticks
+// Keep track of the number of wheel ticks 
 std_msgs::Int16 right_wheel_tick_count;
 ros::Publisher rightPub("right_ticks", &right_wheel_tick_count);
  
 std_msgs::Int16 left_wheel_tick_count;
 ros::Publisher leftPub("left_ticks", &left_wheel_tick_count);
 
-// Time interval for measurements in milliseconds
-const int interval = 30;
-long previousMillis = 0;
-long currentMillis = 0;
+Timer timerTicks(30);
+Timer timerSpeedControl(1);
 
-const int interval2 = 1;
-long previousMillis2 = 0;
-
-const int interval3 = 1000;
-long previousMillis3 = 0;
 //------------------------------------------------------------ 
 
 void setup() 
@@ -54,29 +46,16 @@ void setup()
 
 void loop() 
 {
-  // Record the time
-  currentMillis = millis();
-
-  if (currentMillis - previousMillis2 > interval2) {
-    previousMillis2 = currentMillis;
+  if(timerSpeedControl.isTime())
     robot.move(linear_vel, angular_vel/9.39);
-  } 
 
-  if (currentMillis - previousMillis3 > interval3) {
-    previousMillis3 = currentMillis;
-    linear_vel *= -1;
-  }   
- 
-  // If the time interval has passed, publish the number of ticks,
-  // and calculate the velocities.
-  if (currentMillis - previousMillis > interval) {
-    previousMillis = currentMillis;
-
+  if(timerTicks.isTime()) {
     left_wheel_tick_count.data = robot.getDataLeftWheel();
     right_wheel_tick_count.data = robot.getDataRightWheel();
     // Publish tick counts to topics
     leftPub.publish(&left_wheel_tick_count);
     rightPub.publish(&right_wheel_tick_count); 
-  }  
+  }
+
   nh.spinOnce();
 }

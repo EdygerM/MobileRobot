@@ -19,3 +19,8 @@ bool Timer::isTime()
 
   return isTime;
 }
+
+void Timer::init()
+{
+  previousTime = millis();
+}
