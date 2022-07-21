@@ -31,7 +31,7 @@ ros::Publisher leftPub("left_ticks", &left_wheel_tick_count);
 Timer timerTicks(Parameter::timerTicks);
 Timer timerSpeedControl(Parameter::timerSpeed);
 Timer timerPause(Parameter::timerPause);
-bool speedPause = true;
+bool speedPause = false;
 
 //------------------------------------------------------------ 
 
@@ -43,7 +43,7 @@ void setup()
   nh.subscribe(sub);
   nh.advertise(rightPub);
   nh.advertise(leftPub);
-  Serial.begin(115200); 
+  //Serial.begin(115200); 
   delay(1000);
   timerTicks.init();
   timerSpeedControl.init();
