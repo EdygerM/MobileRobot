@@ -24,7 +24,7 @@ namespace Parameter{
 
   // Debugging parameters
   extern float angularSpeed,linearSpeed;
-  extern int timerTicks, timerSpeed;
+  extern int timerTicks, timerSpeed, timerPause;
 }
 
 #endif

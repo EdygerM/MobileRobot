@@ -2,7 +2,7 @@
 #include "Timer.h"
 #include "Parameter.h"
 #include <ros.h>
-#include <std_msgs/Int16.h>
+#include <std_msgs/Int16.h> 
 #include <geometry_msgs/Twist.h>
 
 #define POWER_OPT A5
@@ -30,6 +30,8 @@ ros::Publisher leftPub("left_ticks", &left_wheel_tick_count);
 
 Timer timerTicks(Parameter::timerTicks);
 Timer timerSpeedControl(Parameter::timerSpeed);
+Timer timerPause(Parameter::timerPause);
+bool speedPause = true;
 
 //------------------------------------------------------------ 
 
@@ -45,10 +47,24 @@ void setup()
   delay(1000);
   timerTicks.init();
   timerSpeedControl.init();
+  timerPause.init();
+
+  /*TCCR1A = 0b10100000;
+  TCCR1B = 0b00010001;
+  ICR1 = 400;*/
 }
 
 void loop() 
 {
+  if (speedPause){
+    if (timerPause.isTime()){
+      linearSpeed = Parameter::linearSpeed;
+      speedPause = false;
+    }
+    else
+      linearSpeed = 0;
+  }
+  
   if(timerSpeedControl.isTime())
     robot.move(linearSpeed, angularSpeed/9.39);
 

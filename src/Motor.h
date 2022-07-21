@@ -30,6 +30,7 @@ class Motor {
     byte minPWM, maxPWM;
     PID controller; 
     Constant::MotorMode mode;
+    float div;
 
     void init();
     int getDeltaPosition(int position);
@@ -44,7 +45,7 @@ class Motor {
     Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID controller);
     Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID controller, byte minPWM, byte maxPWM);
     void setSpeed(float speedSetpoint, bool speedTuning, int position, float speed);   
-    void setSpeedV2(float speedSetpoint, bool speedTuning, int position, float speed);          
+    void setSpeedV2(float speedSetpoint, bool speedTuning, float speed);          
 };
 
 #endif

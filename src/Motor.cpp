@@ -5,7 +5,8 @@ Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID 
   previousPos(0), 
   controller(controller),
   minPWM(5),
-  maxPWM(255)
+  maxPWM(255),
+  div(8.408)
 {
   this->pin1 = pin1;
   this->pin2 = pin2;
@@ -17,7 +18,8 @@ Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID 
 Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID controller, byte minPWM, byte maxPWM) : 
   previousTime(micros()), 
   previousPos(0),
-  controller(controller)
+  controller(controller),
+  div(8.408)
 {
   this->pin1 = pin1;
   this->pin2 = pin2;
@@ -52,14 +54,19 @@ void Motor::setSpeed(float speedSetpoint, bool speedTuning, int position, float 
   setMotor(speedPWM, isForward(speedOutput));
 }
 
-void Motor::setSpeedV2(float speedSetpoint, bool speedTuning, int position, float speed) 
+void Motor::setSpeedV2(float speedSetpoint, bool speedTuning, float speed) 
 { 
-  float speedOutput = controller.getOutput(speedSetpoint, speed, getDeltaTime());
+  float speedOutput = 0;
 
-  if(speedOutput > 1900)
-    speedOutput = 1900;
-  else if(speedOutput < -1900)
-    speedOutput = -1900;
+  if(speedSetpoint != 0) {
+    speedOutput = controller.getOutput(speedSetpoint, speed, getDeltaTime());
+
+    int speedMax = 2145;
+    if(speedOutput > speedMax)
+      speedOutput = speedMax;
+    else if(speedOutput < -speedMax)
+      speedOutput = -speedMax;
+  } 
 
   byte speedPWM = getSpeedPWM(speedOutput);
 
@@ -102,7 +109,7 @@ float Motor::getSpeed(float deltaPos, float deltaTime)
 
 float Motor::getSpeedPWM(float speed)
 {
-  float speedPWM = abs(speed)/7.45;
+  float speedPWM = abs(speed)/div;
   
   if(speedPWM > maxPWM)
     speedPWM = maxPWM;
@@ -115,7 +122,7 @@ float Motor::getSpeedPWM(float speed)
 void Motor::sleepManagement(byte speedCommand, int speedMeasure) 
 {
   if(pinSleep > 0) {
-    if(speedCommand <= minPWM && speedMeasure <= (minPWM*15))
+    if(speedCommand <= minPWM*div && speedMeasure <= (minPWM*div))
       digitalWrite(pinSleep, LOW);
     else
       digitalWrite(pinSleep, HIGH);

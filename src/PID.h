@@ -4,7 +4,7 @@
 class PID {
   private:
     float kp, kd, ki;
-    float previousError, integral;
+    float previousError, previousIntegral;
   public:
     PID(float kp, float kd, float ki);
     float getOutput(float setpoint, float measurement, float deltaTime);
