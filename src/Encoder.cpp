@@ -3,6 +3,8 @@
 
 Encoder::Encoder(byte pinA, byte pinB) : 
   data(0),
+  minRawSpeed(0),
+  maxRawSpeed(Constant::floatMax),
   mode(Constant::RISING_A)
 {
   this->pinA = pinA;
@@ -10,21 +12,25 @@ Encoder::Encoder(byte pinA, byte pinB) :
   init();
 }
 
-Encoder::Encoder(byte pinA, byte pinB, Constant::EncoderMode mode) : 
+Encoder::Encoder(byte pinA, byte pinB, Constant::EncoderMode mode, float minSpeed, float maxSpeed) : 
   data(0)
 {
   this->pinA = pinA;
   this->pinB = pinB;
   this->mode = mode;
+  this->minRawSpeed = minSpeed;
+  this->maxRawSpeed = maxSpeed;
   init();
 }
 
-Encoder::Encoder(byte pinA, byte pinB, Constant::EncoderMode mode, int startData) : 
+Encoder::Encoder(byte pinA, byte pinB, Constant::EncoderMode mode, float minSpeed, float maxSpeed, int startData) : 
   data(startData)
 {
   this->pinA = pinA;
   this->pinB = pinB;
   this->mode = mode;
+  this->minRawSpeed = minSpeed;
+  this->maxRawSpeed = maxSpeed;
   init();
 }
 
@@ -56,9 +62,8 @@ void Encoder::incrementB()
 void Encoder::computeSpeed(bool isForward)
 {
   speed = 1/getDeltaTime();
-  if(speed >= 2300)
-    speed = 0;
-  if(speed < 100)
+
+  if(speed >= maxRawSpeed || speed < minRawSpeed)
     speed = 0;
   
   if(!isForward)
@@ -116,8 +121,8 @@ void Encoder::addB()
 
 void Encoder::addData() 
 {
-  if (data >= Constant::intMax)
-    data = Constant::intMin;
+  if (data >= Constant::shortMax)
+    data = Constant::shortMin;
   else
     data++;
   computeSpeed(true);
@@ -125,8 +130,8 @@ void Encoder::addData()
 
 void Encoder::subData() 
 {
-  if (data <= Constant::intMin)
-    data = Constant::intMax;
+  if (data <= Constant::shortMin)
+    data = Constant::shortMax;
   else
     data--;
   computeSpeed(false);

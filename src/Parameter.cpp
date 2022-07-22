@@ -24,6 +24,8 @@ byte Parameter::rightWheelEncA = 3;
 byte Parameter::rightWheelEncB = 13;
 byte Parameter::leftWheelEncA  = 2;
 byte Parameter::leftWheelEncB  = 11;
+float Parameter::minRawSpeed = 100;
+float Parameter::maxRawSpeed = 2145;
 Constant::EncoderMode Parameter::encoderMode = Constant::RISING_A; 
 
 // Robot Parameters

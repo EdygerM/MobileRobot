@@ -3,7 +3,8 @@
 
 namespace Constant {
   extern float toMicro, toMilli;
-  extern int intMin, intMax;
+  extern short shortMin, shortMax;
+  extern float floatMax;
 
   enum EncoderMode {
     RISING_A,

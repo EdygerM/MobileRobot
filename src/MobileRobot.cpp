@@ -33,8 +33,10 @@ MobileRobot::MobileRobot() :
   rightWheel(Parameter::rightWheelPin1, Parameter::rightWheelPin2, Parameter::rightWheelpinSleep,
              Parameter::motorMode, rightController, 
              Parameter::motorSpeedMin, Parameter::motorSpeedMax),
-  leftEncoder(Parameter::leftWheelEncA, Parameter::leftWheelEncB, Parameter::encoderMode),
-  rightEncoder(Parameter::rightWheelEncA, Parameter::rightWheelEncB, Parameter::encoderMode)
+  leftEncoder(Parameter::leftWheelEncA, Parameter::leftWheelEncB, Parameter::encoderMode,
+              Parameter::minRawSpeed, Parameter::maxRawSpeed),
+  rightEncoder(Parameter::rightWheelEncA, Parameter::rightWheelEncB, Parameter::encoderMode,
+               Parameter::minRawSpeed, Parameter::maxRawSpeed)
 {
   pointerToRobot = this;
   initInterrupt();

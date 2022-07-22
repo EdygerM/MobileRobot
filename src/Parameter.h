@@ -17,6 +17,7 @@ namespace Parameter{
   extern byte rightWheelEncA, rightWheelEncB;
   extern byte leftWheelEncA, leftWheelEncB;
   extern Constant::EncoderMode encoderMode;
+  extern float minRawSpeed, maxRawSpeed;
 
   // Robot Parameters
   extern float wheelRadius, lengthBetweenWheel;

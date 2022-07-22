@@ -11,10 +11,11 @@
 class Encoder {
   private:
     byte pinA, pinB;
-    volatile int data;
+    volatile short data;
     Constant::EncoderMode mode;
     unsigned long previousTime;
     volatile float speed;
+    float minRawSpeed, maxRawSpeed; 
         
     void init();
     void risingA();
@@ -29,8 +30,8 @@ class Encoder {
  
   public:
     Encoder(byte pinA, byte pinB);
-    Encoder(byte pinA, byte pinB, Constant::EncoderMode mode);
-    Encoder(byte pinA, byte pinB, Constant::EncoderMode mode, int startData);
+    Encoder(byte pinA, byte pinB, Constant::EncoderMode mode, float minSpeed, float maxSpeed);
+    Encoder(byte pinA, byte pinB, Constant::EncoderMode mode, float minSpeed, float maxSpeed, int startData);
     void incrementA();
     void incrementB();
     int getData();
