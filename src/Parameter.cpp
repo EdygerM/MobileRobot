@@ -12,6 +12,7 @@ byte Parameter::motorSpeedMin      = 0;
 byte Parameter::motorSpeedMax      = 255;
 bool Parameter::leftWheelTuning    = false; 
 bool Parameter::rightWheelTuning   = false;
+float Parameter::maxIntegral       = 100;
 Constant::MotorMode Parameter::motorMode = Constant::PWM_DIRECTION; 
 
 // Controller

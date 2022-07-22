@@ -25,8 +25,8 @@ static void rightWheelInterruptB()
 }
 
 MobileRobot::MobileRobot() :
-  leftController(Parameter::kp, Parameter::kd, Parameter::ki),
-  rightController(Parameter::kp, Parameter::kd, Parameter::ki),
+  leftController(Parameter::kp, Parameter::kd, Parameter::ki, Parameter::maxIntegral),
+  rightController(Parameter::kp, Parameter::kd, Parameter::ki, Parameter::maxIntegral),
   leftWheel(Parameter::leftWheelPin1, Parameter::leftWheelPin2, Parameter::leftWheelpinSleep, 
             Parameter::motorMode, leftController, 
             Parameter::motorSpeedMin, Parameter::motorSpeedMax),

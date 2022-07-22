@@ -12,6 +12,7 @@ namespace Parameter{
   extern byte motorSpeedMin, motorSpeedMax;
   extern bool leftWheelTuning, rightWheelTuning;
   extern Constant::MotorMode motorMode;
+  extern float maxIntegral;
 
   // Encoders Parameters
   extern byte rightWheelEncA, rightWheelEncB;
