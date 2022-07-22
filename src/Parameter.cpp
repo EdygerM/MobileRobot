@@ -11,7 +11,7 @@ byte Parameter::rightWheelpinSleep = 4;
 byte Parameter::motorSpeedMin      = 0;
 byte Parameter::motorSpeedMax      = 255;
 bool Parameter::leftWheelTuning    = false; 
-bool Parameter::rightWheelTuning   = true;
+bool Parameter::rightWheelTuning   = false;
 Constant::MotorMode Parameter::motorMode = Constant::PWM_DIRECTION; 
 
 // Controller
@@ -37,7 +37,7 @@ float Parameter::ticksPerMeter      = Parameter::ticksPerRevolution/(2.0*PI*Para
 
 // Debugging Parameters
 float Parameter::angularSpeed = 0;  // [rad/s]
-float Parameter::linearSpeed  = 0.4;  // [m/s] max 0.525
+float Parameter::linearSpeed  = 0;  // [m/s] max 0.525
 int Parameter::timerTicks     = 30; // [ms] 
 int Parameter::timerSpeed     = 5;  // [ms]
 int Parameter::timerPause     = 1000;  // [ms]

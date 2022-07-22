@@ -43,7 +43,7 @@ void setup()
   nh.subscribe(sub);
   nh.advertise(rightPub);
   nh.advertise(leftPub);
-  Serial.begin(115200); 
+  //Serial.begin(115200); 
   delay(1000);
   timerTicks.init();
   timerSpeedControl.init();
@@ -65,7 +65,7 @@ void loop()
       linearSpeed = 0;
   }*/
 
-  if (timerPause.isTime()){
+  /*if (timerPause.isTime()){
     if (speedPause){
       linearSpeed = Parameter::linearSpeed;
       speedPause = false;
@@ -74,7 +74,7 @@ void loop()
       linearSpeed = 0.2;
       speedPause = true;
     }     
-  }
+  }*/
   
   if(timerSpeedControl.isTime())
     robot.move(linearSpeed, angularSpeed/9.39);
