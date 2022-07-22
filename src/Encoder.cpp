@@ -3,9 +3,7 @@
 
 Encoder::Encoder(byte pinA, byte pinB) : 
   data(0),
-  mode(Constant::RISING_A),
-  previousTime(micros()),
-  speed(0)
+  mode(Constant::RISING_A)
 {
   this->pinA = pinA;
   this->pinB = pinB;
@@ -21,11 +19,22 @@ Encoder::Encoder(byte pinA, byte pinB, Constant::EncoderMode mode) :
   init();
 }
 
+Encoder::Encoder(byte pinA, byte pinB, Constant::EncoderMode mode, int startData) : 
+  data(startData)
+{
+  this->pinA = pinA;
+  this->pinB = pinB;
+  this->mode = mode;
+  init();
+}
+
 // Initialize the 2 pins which are reading the quadrature signals A & B.
+// Initialize the timer
 void Encoder::init() 
 {
   pinMode(pinA, INPUT);
   pinMode(pinB, INPUT);
+  previousTime = micros();
 }
 
 // Increment the raw data depending on the reading mode

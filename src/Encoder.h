@@ -30,6 +30,7 @@ class Encoder {
   public:
     Encoder(byte pinA, byte pinB);
     Encoder(byte pinA, byte pinB, Constant::EncoderMode mode);
+    Encoder(byte pinA, byte pinB, Constant::EncoderMode mode, int startData);
     void incrementA();
     void incrementB();
     int getData();
