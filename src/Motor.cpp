@@ -56,17 +56,13 @@ void Motor::setSpeed(float speedSetpoint, bool speedTuning, int position, float 
 
 void Motor::setSpeedV2(float speedSetpoint, bool speedTuning, float speed) 
 { 
-  float speedOutput = 0;
+  float speedOutput = controller.getOutput(speedSetpoint, speed, getDeltaTime());
 
-  if(speedSetpoint != 0) {
-    speedOutput = controller.getOutput(speedSetpoint, speed, getDeltaTime());
-
-    int speedMax = 2145;
-    if(speedOutput > speedMax)
-      speedOutput = speedMax;
-    else if(speedOutput < -speedMax)
-      speedOutput = -speedMax;
-  } 
+  int speedMax = 2145;
+  if(speedOutput > speedMax)
+    speedOutput = speedMax;
+  else if(speedOutput < -speedMax)
+    speedOutput = -speedMax;
 
   byte speedPWM = getSpeedPWM(speedOutput);
 

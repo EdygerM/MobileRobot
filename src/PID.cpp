@@ -3,7 +3,7 @@
 
 PID::PID(float kp, float kd, float ki) : 
   previousError(0), 
-  previousIntegral(0) 
+  previousIntegral(0)
 {
   this->kp = kp;
   this->kd = kd;
@@ -13,16 +13,20 @@ PID::PID(float kp, float kd, float ki) :
 // Return the controller signal
 float PID::getOutput(float setpoint, float measurement, float deltaTime) 
 {
+  if(setpoint == 0)
+    previousIntegral = 0;
+  if(previousIntegral >= 100)
+    previousIntegral = 100;
   float error = 0;
   float derivative = 0;
   float integral = 0;
   if (deltaTime > 0) {
-    //error = measurement - setpoint;
     error = setpoint - measurement;
     derivative = (error - previousError)/deltaTime;
     integral = previousIntegral + error*deltaTime;
     previousError = error;
     previousIntegral = integral;
+    //Serial.println(integral);
   }
 
   return kp*error + kd*derivative + ki*integral;

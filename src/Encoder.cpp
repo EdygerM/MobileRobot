@@ -49,6 +49,8 @@ void Encoder::computeSpeed(bool isForward)
   speed = 1/getDeltaTime();
   if(speed >= 2300)
     speed = 0;
+  if(speed < 100)
+    speed = 0;
   
   if(!isForward)
     speed *= -1;
