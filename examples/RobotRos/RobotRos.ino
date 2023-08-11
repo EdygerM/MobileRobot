@@ -15,7 +15,7 @@ float linearSpeed = Parameter::linearSpeed;
 void twistToVel(const geometry_msgs::Twist& cmd_vel_msg)
 {
   linearSpeed  = cmd_vel_msg.linear.x;
-  angularSpeed = cmd_vel_msg.angular.z;
+  angularSpeed = cmd_vel_msg.angular.z*Parameter::rotationLength/(2*PI);
 }
 
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", &twistToVel);
@@ -48,36 +48,12 @@ void setup()
   timerTicks.init();
   timerSpeedControl.init();
   timerPause.init();
-
-  /*TCCR1A = 0b10100000;
-  TCCR1B = 0b00010001;
-  ICR1 = 400;*/
 }
 
 void loop() 
 {
-  /*if (speedPause){
-    if (timerPause.isTime()){
-      linearSpeed = Parameter::linearSpeed;
-      speedPause = false;
-    }
-    else
-      linearSpeed = 0;
-  }*/
-
-  /*if (timerPause.isTime()){
-    if (speedPause){
-      linearSpeed = Parameter::linearSpeed;
-      speedPause = false;
-    }
-    else {
-      linearSpeed = 0.2;
-      speedPause = true;
-    }     
-  }*/
-  
   if(timerSpeedControl.isTime())
-    robot.move(linearSpeed, angularSpeed/9.39);
+    robot.move(linearSpeed, angularSpeed);
 
   if(timerTicks.isTime()) {
     left_wheel_tick_count.data = robot.getDataLeftWheel();

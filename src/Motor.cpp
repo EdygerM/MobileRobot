@@ -3,6 +3,7 @@
 Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID controller) :  
   previousTime(micros()), 
   previousPos(0), 
+  previousSpeed(0),
   controller(controller),
   minPWM(5),
   maxPWM(255),
@@ -18,6 +19,7 @@ Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID 
 Motor::Motor(byte pin1, byte pin2, byte pinSleep, Constant::MotorMode mode, PID controller, byte minPWM, byte maxPWM) : 
   previousTime(micros()), 
   previousPos(0),
+  previousSpeed(0),
   controller(controller),
   div(8.408)
 {
@@ -37,24 +39,7 @@ void Motor::init()
   pinMode(pinSleep, OUTPUT);
 }
 
-void Motor::setSpeed(float speedSetpoint, bool speedTuning, int position, float speed) 
-{ 
-  float deltaTime = getDeltaTime();
-  int deltaPos = getDeltaPosition(position);
-  float speedMeasure = getSpeed(deltaPos, deltaTime);
-  float speedOutput = controller.getOutput(speedSetpoint, speedMeasure, deltaTime);
-
-  byte speedPWM = getSpeedPWM(speedOutput);
-
-  if(speedTuning)
-    controller.printTuning(speedSetpoint, speedMeasure, speedOutput);
-
-  sleepManagement(speedPWM, speedMeasure);
-
-  setMotor(speedPWM, isForward(speedOutput));
-}
-
-void Motor::setSpeedV2(float speedSetpoint, bool speedTuning, float speed) 
+void Motor::setSpeed(float speedSetpoint, bool speedTuning, float speed, float maxDeltaSpeed) 
 { 
   float speedOutput = controller.getOutput(speedSetpoint, speed, getDeltaTime());
 
@@ -63,6 +48,14 @@ void Motor::setSpeedV2(float speedSetpoint, bool speedTuning, float speed)
     speedOutput = speedMax;
   else if(speedOutput < -speedMax)
     speedOutput = -speedMax;
+
+  /*float deltaSpeed = speedOutput - previousSpeed;
+  if(deltaSpeed > maxDeltaSpeed)
+    speedOutput = previousSpeed + maxDeltaSpeed;
+  else if(deltaSpeed < -maxDeltaSpeed)
+    speedOutput = previousSpeed - maxDeltaSpeed;
+
+  previousSpeed = speedOutput;*/
 
   byte speedPWM = getSpeedPWM(speedOutput);
 
@@ -82,25 +75,6 @@ float Motor::getDeltaTime()
   previousTime = currentTime;
   
   return (float)deltaTime*Constant::toMicro;
-}
-
-// Compute position variation read on the encoder between now and the last call
-int Motor::getDeltaPosition(int position) 
-{
-  int deltaPos = position - previousPos;
-  previousPos = position;
-  
-  return deltaPos;
-}
-
-// Compute the speed depending on the variation of position and time
-float Motor::getSpeed(float deltaPos, float deltaTime) 
-{
-  float speed = 0;
-  if(deltaTime > 0)
-    speed = deltaPos/deltaTime;
-
-  return deltaPos/deltaTime;
 }
 
 float Motor::getSpeedPWM(float speed)

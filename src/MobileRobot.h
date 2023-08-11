@@ -9,6 +9,7 @@ class MobileRobot {
     PID leftController, rightController;
     Motor leftWheel, rightWheel;
     Encoder leftEncoder, rightEncoder;
+    float previousLinearSpeed, previousAngularSpeed;
     float degreeToRad(float angle);
     void initInterrupt();
   public:
@@ -20,6 +21,7 @@ class MobileRobot {
     void move(float linear_vel,float angular_vel);
     int getDataLeftWheel();
     int getDataRightWheel();
+    float setSpeed(float speedCommand, float previousSpeed, float maxDeltaSpeed);
 };
 
 #endif

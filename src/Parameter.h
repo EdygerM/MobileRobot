@@ -9,10 +9,13 @@ namespace Parameter{
   extern byte leftWheelPin1, leftWheelPin2, leftWheelpinSleep;
   extern byte rightWheelPin1, rightWheelPin2, rightWheelpinSleep;
   extern float kp, kd, ki;
+  extern float acceleration;
   extern byte motorSpeedMin, motorSpeedMax;
   extern bool leftWheelTuning, rightWheelTuning;
   extern Constant::MotorMode motorMode;
   extern float maxIntegral;
+  extern float wheelCorrection;
+  extern float maxDeltaSpeed;
 
   // Encoders Parameters
   extern byte rightWheelEncA, rightWheelEncB;
@@ -23,6 +26,7 @@ namespace Parameter{
   // Robot Parameters
   extern float wheelRadius, lengthBetweenWheel;
   extern float ticksPerRevolution, ticksPerMeter;
+  extern float rotationLength;
 
   // Debugging parameters
   extern float angularSpeed,linearSpeed;

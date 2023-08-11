@@ -36,7 +36,9 @@ MobileRobot::MobileRobot() :
   leftEncoder(Parameter::leftWheelEncA, Parameter::leftWheelEncB, Parameter::encoderMode,
               Parameter::minRawSpeed, Parameter::maxRawSpeed),
   rightEncoder(Parameter::rightWheelEncA, Parameter::rightWheelEncB, Parameter::encoderMode,
-               Parameter::minRawSpeed, Parameter::maxRawSpeed)
+               Parameter::minRawSpeed, Parameter::maxRawSpeed),
+  previousLinearSpeed(0),
+  previousAngularSpeed(0)  
 {
   pointerToRobot = this;
   initInterrupt();
@@ -78,12 +80,20 @@ void MobileRobot::rightWheelIncrementB()
   rightEncoder.incrementB();
 }
 
-void MobileRobot::move(float linear_vel, float angular_vel) 
+void MobileRobot::move(float linearSpeed, float angularSpeed) 
 {
-  float leftWheelSpeed = 0.95*(linear_vel - angular_vel)*Parameter::ticksPerMeter;
-  float rightWheelSpeed = (linear_vel + angular_vel)*Parameter::ticksPerMeter;
-  leftWheel.setSpeedV2(leftWheelSpeed, Parameter::leftWheelTuning, leftEncoder.getSpeed());
-  rightWheel.setSpeedV2(rightWheelSpeed, Parameter::rightWheelTuning, rightEncoder.getSpeed());
+  linearSpeed = setSpeed(linearSpeed, previousLinearSpeed, Parameter::maxDeltaSpeed);
+  angularSpeed = setSpeed(angularSpeed, previousAngularSpeed, Parameter::maxDeltaSpeed);
+
+  previousLinearSpeed = linearSpeed;
+  previousAngularSpeed = angularSpeed;
+
+  float leftWheelSpeed = (linearSpeed - angularSpeed)*Parameter::ticksPerMeter;
+  float rightWheelSpeed = (linearSpeed + angularSpeed)*Parameter::ticksPerMeter;
+  if(angularSpeed > 0)
+    rightWheelSpeed = (linearSpeed + angularSpeed*Parameter::wheelCorrection)*Parameter::ticksPerMeter;
+  leftWheel.setSpeed(leftWheelSpeed, Parameter::leftWheelTuning, leftEncoder.getSpeed(), Parameter::maxDeltaSpeed);
+  rightWheel.setSpeed(rightWheelSpeed, Parameter::rightWheelTuning, rightEncoder.getSpeed(), Parameter::maxDeltaSpeed);
 }
 
 int MobileRobot::getDataLeftWheel() 
@@ -94,4 +104,15 @@ int MobileRobot::getDataLeftWheel()
 int MobileRobot::getDataRightWheel() 
 {
   return rightEncoder.getData();
+}
+
+float MobileRobot::setSpeed(float speedCommand, float previousSpeed, float maxDeltaSpeed) 
+{
+  float deltaSpeed = speedCommand - previousSpeed;
+  if(deltaSpeed > maxDeltaSpeed)
+    return previousSpeed + maxDeltaSpeed;
+  else if(deltaSpeed < -maxDeltaSpeed)
+    return previousSpeed - maxDeltaSpeed;
+  else
+    return speedCommand;
 }
